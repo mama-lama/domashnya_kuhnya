@@ -1,0 +1,1744 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Меню кафе «Домашняя кухня» в деревне Князево, Воронежская область.">
+  <title>Меню — кафе «Домашняя кухня»</title>
+  <style>
+    :root {
+      --olive-900: #2e431b;
+      --olive-800: #3f5d22;
+      --olive-700: #52782a;
+      --olive-500: #7c9c4a;
+      --cream-50: #fffdf4;
+      --cream-100: #fbf7e8;
+      --cream-200: #f3ecd3;
+      --cream-300: #e8ddbd;
+      --orange: #d96d3c;
+      --ink: #26301f;
+      --muted: #6c705e;
+      --shadow: 0 12px 30px rgba(49, 63, 31, .10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(232, 221, 189, .55), transparent 25rem),
+        radial-gradient(circle at 90% 15%, rgba(124, 156, 74, .10), transparent 28rem),
+        var(--cream-50);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+
+    a { color: inherit; }
+    .page { width: min(1180px, calc(100% - 28px)); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin: 18px auto 0;
+      padding: clamp(34px, 6vw, 72px) clamp(20px, 5vw, 70px);
+      border: 1px solid rgba(82, 120, 42, .18);
+      border-radius: 30px;
+      background:
+        linear-gradient(120deg, rgba(255, 253, 244, .98), rgba(251, 247, 232, .88)),
+        repeating-linear-gradient(45deg, transparent 0 12px, rgba(82,120,42,.025) 12px 13px);
+      box-shadow: var(--shadow);
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      opacity: .34;
+      pointer-events: none;
+    }
+    .hero::before {
+      left: -105px;
+      top: -110px;
+      background: radial-gradient(circle, var(--olive-500) 0 5px, transparent 6px),
+                  radial-gradient(circle at 70% 55%, #e2a27e 0 7px, transparent 8px);
+      background-size: 34px 34px, 54px 54px;
+      transform: rotate(12deg);
+    }
+    .hero::after {
+      right: -95px;
+      bottom: -125px;
+      border: 28px solid rgba(82, 120, 42, .26);
+      box-shadow: inset 0 0 0 24px rgba(217,109,60,.13);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: var(--olive-700);
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+    h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; }
+    h1 {
+      max-width: 820px;
+      margin: 0;
+      color: var(--olive-900);
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      line-height: .98;
+      letter-spacing: -.035em;
+    }
+    .address {
+      max-width: 920px;
+      margin: 22px 0 0;
+      color: var(--olive-800);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 700;
+    }
+    .welcome {
+      max-width: 780px;
+      margin: 20px 0 0;
+      font-size: clamp(1rem, 1.7vw, 1.14rem);
+    }
+    .notice {
+      max-width: 820px;
+      margin: 24px 0 0;
+      padding: 13px 16px;
+      border-left: 4px solid var(--orange);
+      border-radius: 0 12px 12px 0;
+      background: rgba(217, 109, 60, .08);
+      color: #6a4937;
+      font-size: .92rem;
+    }
+
+    .category-nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: 18px;
+      padding: 10px 0;
+      background: linear-gradient(var(--cream-50) 72%, rgba(255,253,244,0));
+    }
+    .category-nav {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding: 10px;
+      border: 1px solid rgba(82, 120, 42, .16);
+      border-radius: 18px;
+      background: rgba(255, 253, 244, .94);
+      box-shadow: 0 7px 24px rgba(49,63,31,.08);
+      scrollbar-width: thin;
+    }
+    .category-link {
+      flex: 0 0 auto;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: var(--cream-100);
+      color: var(--olive-900);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+    .category-link:hover,
+    .category-link:focus-visible {
+      background: var(--olive-700);
+      color: white;
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    main { padding: 18px 0 70px; }
+    .menu-section { scroll-margin-top: 92px; padding-top: 24px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 14px 0 22px;
+      text-align: center;
+    }
+    .section-title h2 {
+      margin: 0;
+      color: var(--olive-900);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -.025em;
+    }
+    .flourish {
+      width: 54px;
+      height: 18px;
+      background:
+        radial-gradient(ellipse at 24% 50%, var(--olive-500) 0 5px, transparent 6px),
+        radial-gradient(ellipse at 50% 35%, var(--olive-700) 0 5px, transparent 6px),
+        radial-gradient(ellipse at 76% 50%, var(--olive-500) 0 5px, transparent 6px),
+        linear-gradient(var(--olive-700), var(--olive-700)) center / 100% 1px no-repeat;
+      transform: rotate(-7deg);
+    }
+    .flourish.reverse { transform: scaleX(-1) rotate(-7deg); }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .menu-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(82,120,42,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 9px 24px rgba(49,63,31,.075);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .menu-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(49,63,31,.12);
+    }
+    .dish-photo {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(82,120,42,.12);
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,.9) 0 3px, transparent 4px),
+        linear-gradient(145deg, #eef1df, #e5e8cf 54%, #f7ead7);
+    }
+    .dish-photo::before,
+    .dish-photo::after {
+      content: "";
+      position: absolute;
+      width: 68px;
+      height: 26px;
+      border-radius: 100% 0 100% 0;
+      background: rgba(82,120,42,.16);
+      transform: rotate(-34deg);
+    }
+    .dish-photo::before { left: -22px; top: 22px; }
+    .dish-photo::after { right: -22px; bottom: 22px; transform: rotate(146deg); }
+    .plate {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border: 12px solid rgba(255,255,255,.94);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,109,60,.32), rgba(217,109,60,.13) 55%, transparent 57%);
+      box-shadow: 0 10px 18px rgba(68,79,45,.15), inset 0 0 0 1px rgba(82,120,42,.12);
+    }
+    .plate::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 28px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--olive-500);
+      transform: translate(-50%, -50%) rotate(-12deg);
+      opacity: .7;
+    }
+    .photo-label {
+      position: absolute;
+      bottom: 13px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255,253,244,.9);
+      color: var(--olive-800);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .dish-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 18px;
+    }
+    .dish-heading { display: contents; }
+    .dish-heading h3 {
+      order: 1;
+      margin: 0;
+      color: var(--olive-900);
+      font-size: clamp(1.17rem, 2vw, 1.45rem);
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+    .price {
+      order: 5;
+      align-self: flex-start;
+      margin-top: 12px;
+      padding: 7px 10px;
+      border-radius: 12px;
+      background: var(--olive-700);
+      color: white;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+    .description {
+      order: 2;
+      margin: 10px 0 12px;
+      color: #545b49;
+      font-size: .88rem;
+      line-height: 1.42;
+    }
+    .description.muted { color: #858878; font-style: italic; }
+    .warning {
+      order: 3;
+      margin: -4px 0 11px;
+      color: var(--orange);
+      font-size: .8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .portion {
+      order: 4;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(82,120,42,.28);
+      color: var(--muted);
+      font-size: .84rem;
+    }
+    .portion b { color: var(--olive-800); text-align: right; }
+
+    .footer {
+      margin-bottom: 28px;
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--olive-900);
+      color: #f6f2dc;
+      text-align: center;
+    }
+    .footer strong { display: block; margin-bottom: 6px; font: 700 1.4rem Georgia, serif; }
+    .back-to-top {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @media (max-width: 850px) {
+      .menu-grid { gap: 12px; }
+    }
+    @media (max-width: 560px) {
+      .page { width: min(100% - 14px, 1180px); }
+      .hero { margin-top: 7px; border-radius: 22px; }
+      h1 { font-size: clamp(2.15rem, 12vw, 3.6rem); }
+      .menu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .menu-card { border-radius: 15px; }
+      .dish-photo { aspect-ratio: 1 / 1; }
+      .plate { width: 58px; height: 58px; border-width: 8px; }
+      .photo-label {
+        bottom: 7px;
+        padding: 3px 6px;
+        font-size: .56rem;
+        letter-spacing: .04em;
+      }
+      .dish-content { padding: 10px; }
+      .dish-heading h3 {
+        font-size: .98rem;
+        line-height: 1.12;
+      }
+      .description {
+        margin: 7px 0 8px;
+        font-size: .72rem;
+        line-height: 1.32;
+      }
+      .warning {
+        margin: -2px 0 7px;
+        font-size: .67rem;
+      }
+      .portion {
+        display: block;
+        padding-top: 7px;
+        font-size: .7rem;
+      }
+      .portion span,
+      .portion b { display: block; text-align: left; }
+      .portion b { margin-top: 2px; }
+      .price {
+        margin-top: 9px;
+        padding: 5px 8px;
+        border-radius: 9px;
+        font-size: .86rem;
+      }
+      .section-title { gap: 8px; }
+      .section-title h2 { font-size: clamp(1.65rem, 8vw, 2.2rem); }
+      .flourish { width: 26px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .page { width: 100%; }
+      .hero, .menu-card { box-shadow: none; }
+      .category-nav-wrap, .back-to-top { display: none; }
+      .menu-section { break-inside: auto; }
+      .menu-card { break-inside: avoid; }
+      .menu-grid { gap: 9px; }
+    }
+  </style>
+</head>
+<body id="top">
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">Меню кафе</div>
+      <h1>Кафе «Домашняя кухня»</h1>
+      <p class="address">улица Сенновские Выселки, 12, деревня Князево, Комсомольское сельское поселение, Рамонский район, Воронежская область</p>
+      <p class="welcome">Мы рады видеть наших посетителей! Здесь можно вкусно поесть, отдохнуть с дороги и провести время в приятной, по-домашнему уютной обстановке.</p>
+      <p class="notice">Блюда на фотографиях могут отличаться от фактического вида. Все изображения носят иллюстративный характер.</p>
+    </header>
+
+    <div class="category-nav-wrap" aria-label="Категории меню">
+      <nav class="category-nav"><a class="category-link" href="#soups">Первые блюда</a><a class="category-link" href="#salads">Салаты</a><a class="category-link" href="#main">Вторые блюда</a><a class="category-link" href="#order">Блюда под заказ</a><a class="category-link" href="#sides">Гарниры</a><a class="category-link" href="#drinks">Напитки</a><a class="category-link" href="#bakery">Выпечка</a><a class="category-link" href="#bread">Хлеб</a><a class="category-link" href="#extra">Дополнительно</a></nav>
+    </div>
+
+    <main>
+      <section class="menu-section" id="soups">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Первые блюда</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Борщ</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description">С майонезом, со сметаной</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 500 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Борщ 0,5</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description">С майонезом, со сметаной</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Харчо</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Харчо 0,5</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп грибной</h3>
+                <strong class="price">190 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп грибной 0,5</h3>
+                <strong class="price">160 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп гороховый</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп гороховый 0,5</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Солянка</h3>
+                <strong class="price">320 ₽</strong>
+              </div>
+              <p class="description">Лимон, оливки</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Солянка 0,5</h3>
+                <strong class="price">300 ₽</strong>
+              </div>
+              <p class="description">Лимон, оливки</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Лапша домашняя</h3>
+                <strong class="price">170 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 500</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Лапша домашняя 0,5</h3>
+                <strong class="price">140 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>35 / 250 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Лагман</h3>
+                <strong class="price">320 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Шурпа</h3>
+                <strong class="price">350 ₽</strong>
+              </div>
+              <p class="description">Говядина, картофель, бульон</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Хашлама</h3>
+                <strong class="price">350 ₽</strong>
+              </div>
+              <p class="description">Баранина, овощи</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп с фрикадельками</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Суп рыбный</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>500 гр</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="salads">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Салаты</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Винегрет</h3>
+                <strong class="price">120 ₽</strong>
+              </div>
+              <p class="description">Отвар.свекла,морковь,картофель, свеж.капуста,солен.огурцы,зелен.горошек,раст.масло</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Оливье</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description">Варен.колбаса, зелен.горошек, отвар.яйца, солен.огурец, лук, отвар.картофель, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Туборг</h3>
+                <strong class="price">130 ₽</strong>
+              </div>
+              <p class="description">Мясо курицы, помидоры, сыр, ананас, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Сельдь “под шубой”</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Салат из свежих огурцов и помидоров</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description">Заправка:майонез,сметана,раст.масло</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Салат из крабовых палочек</h3>
+                <strong class="price">130 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Морковь по-корейски</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>100 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Салат из капусты</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description">Свеж.капуста, морковь, лук, зелень, конс.горох, конс.кукуруза, уксус, раст.масло</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Яйцо под майонезом</h3>
+                <strong class="price">40 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 шт.</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Закуска “Русская”</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description">Сельдь, отварной картофель, соленый огурец, лук марин.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Сельдь с луком</h3>
+                <strong class="price">130 ₽</strong>
+              </div>
+              <p class="description">Соленая сельдь, лук марин., растит.масло</p>
+              
+              <div class="portion"><span>Порция</span><b>100 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Свекла с чесноком</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description">Свекла отварная,чеснок, сыр тертый, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Греческий</h3>
+                <strong class="price">170 ₽</strong>
+              </div>
+              <p class="description">Лист салата, огурцы свеж., помидоры свеж., сыр фета, лук порей, соевый соус</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Цезарь</h3>
+                <strong class="price">250 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>200 гр</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Огурцы соленые</h3>
+                <strong class="price">70 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="main">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Вторые блюда</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо отбивное</h3>
+                <strong class="price">280 ₽</strong>
+              </div>
+              <p class="description">Свинина</p>
+              
+              <div class="portion"><span>Порция</span><b>200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо по-французски</h3>
+                <strong class="price">330 ₽</strong>
+              </div>
+              <p class="description">Отбивная из свинины, сыр, грибы, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>140 / 160 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо оригинальное</h3>
+                <strong class="price">300 ₽</strong>
+              </div>
+              <p class="description">Отбивная из свинины, сыр, перец болгарский, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>140 / 160 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Свинина “под шубой”</h3>
+                <strong class="price">300 ₽</strong>
+              </div>
+              <p class="description">Отбивная, картофель, сыр, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>140 / 160 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо с ананасами</h3>
+                <strong class="price">300 ₽</strong>
+              </div>
+              <p class="description">Отбивная, ананас, сыр, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>140 / 160 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо по-барски</h3>
+                <strong class="price">320 ₽</strong>
+              </div>
+              <p class="description">Свинина тушеная с овощами:солен.огурцы, лук, морковь, томаты</p>
+              
+              <div class="portion"><span>Порция</span><b>100 / 130 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Жаркое по домашнему в горшочке</h3>
+                <strong class="price">350 ₽</strong>
+              </div>
+              <p class="description">Свинина, картофель, грибы, сыр, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>350 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Шашлык</h3>
+                <strong class="price">350 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>170 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Ребра тушеные</h3>
+                <strong class="price">220 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Котлеты домашние</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>2 / 150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Голубцы</h3>
+                <strong class="price">260 ₽</strong>
+              </div>
+              <p class="description">Со сметаной</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт.</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Плов</h3>
+                <strong class="price">220 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>250 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Поджарка</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description">Свинина</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Печень</h3>
+                <strong class="price">160 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>110 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Сосиски</h3>
+                <strong class="price">120 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Отбивная куриная</h3>
+                <strong class="price">260 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Отбивная куриная с грибами</h3>
+                <strong class="price">330 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 / 150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Котлета по-киевски</h3>
+                <strong class="price">380 ₽</strong>
+              </div>
+              <p class="description">Куриное филе, сливочное масло, сыр</p>
+              
+              <div class="portion"><span>Порция</span><b>350 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Окорочка</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 / 200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Котлета куриная</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 / 180 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Бифштекс с яйцом</h3>
+                <strong class="price">230 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>110 / 40 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Говядина отварная</h3>
+                <strong class="price">290 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>100 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Мясо по-ирански</h3>
+                <strong class="price">400 ₽</strong>
+              </div>
+              <p class="description">Отбивная из говядины, чернослив, сыр, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>130 / 100 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Гуляш</h3>
+                <strong class="price">230 ₽</strong>
+              </div>
+              <p class="description">Говядина</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Горячая сковорода</h3>
+                <strong class="price">450 ₽</strong>
+              </div>
+              <p class="description">Говядина, картофель, овощи гриль, грибы</p>
+              
+              <div class="portion"><span>Порция</span><b>120 / 250 гр.</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Антрекот</h3>
+                <strong class="price">400 ₽</strong>
+              </div>
+              <p class="description">Говядина, лук</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г / 100 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Отбивная говяжья</h3>
+                <strong class="price">400 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Семга по-царски</h3>
+                <strong class="price">500 ₽</strong>
+              </div>
+              <p class="description">Семга, грибы, морковь, лук, сыр, майонез</p>
+              
+              <div class="portion"><span>Порция</span><b>90 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Рыба жареная</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description">Минтай</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="order">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Блюда под заказ</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Стейк</h3>
+                <strong class="price">450 ₽</strong>
+              </div>
+              <p class="description">Говядина вырезка</p>
+              
+              <div class="portion"><span>Порция</span><b>150 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Пельмени</h3>
+                <strong class="price">250 ₽</strong>
+              </div>
+              <p class="description">Заправка: сметана, майонез, кетчуп</p>
+              <p class="warning">Время приготовления 30 минут!!!!</p>
+              <div class="portion"><span>Порция</span><b>25 шт.</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Яичница с колбасой</h3>
+                <strong class="price">200 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>3 / 100 г</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="sides">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Гарниры</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Макароны</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Рис</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Гречка</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>200 г</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Картофельное пюре</h3>
+                <strong class="price">130 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>250 г</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="drinks">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Напитки</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Кофе</h3>
+                <strong class="price">70 ₽</strong>
+              </div>
+              <p class="description">С сахаром</p>
+              
+              <div class="portion"><span>Порция</span><b>2-15 / 100</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Кофе двойной</h3>
+                <strong class="price">100 ₽</strong>
+              </div>
+              <p class="description">С сахаром</p>
+              
+              <div class="portion"><span>Порция</span><b>4-15 / 100</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Кофе со сливками 3в1</h3>
+                <strong class="price">60 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>18 / 180</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Чай зелёный</h3>
+                <strong class="price">60 ₽</strong>
+              </div>
+              <p class="description">С сахаром</p>
+              
+              <div class="portion"><span>Порция</span><b>2-2,25 / 200</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Чай черный</h3>
+                <strong class="price">60 ₽</strong>
+              </div>
+              <p class="description">С сахаром</p>
+              
+              <div class="portion"><span>Порция</span><b>2-22,5 / 200</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Чай с лимоном</h3>
+                <strong class="price">65 ₽</strong>
+              </div>
+              <p class="description">С сахаром</p>
+              
+              <div class="portion"><span>Порция</span><b>2-22,5-9 / 200</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Компот</h3>
+                <strong class="price">50 ₽</strong>
+              </div>
+              <p class="description">Из сухофруктов, из свежих фруктов</p>
+              
+              <div class="portion"><span>Порция</span><b>200</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="bakery">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Выпечка</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Блинчики с мясом</h3>
+                <strong class="price">180 ₽</strong>
+              </div>
+              <p class="description">Со сметаной</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Блинчики с творогом</h3>
+                <strong class="price">150 ₽</strong>
+              </div>
+              <p class="description">Со сметаной</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Блинчики со сметаной</h3>
+                <strong class="price">120 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Блинчики со сгущенкой</h3>
+                <strong class="price">120 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>2 шт</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="bread">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Хлеб</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Хлеб белый</h3>
+                <strong class="price">7 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Хлеб черный</h3>
+                <strong class="price">7 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 шт</b></div>
+            </div>
+          </article>
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Лаваш</h3>
+                <strong class="price">80 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>1 шт</b></div>
+            </div>
+          </article></div>
+      </section>
+      <section class="menu-section" id="extra">
+        <div class="section-title">
+          <span class="flourish" aria-hidden="true"></span>
+          <h2>Дополнительно</h2>
+          <span class="flourish reverse" aria-hidden="true"></span>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="dish-photo" role="img" aria-label="Заглушка для фотографии блюда">
+              <span class="plate" aria-hidden="true"></span>
+              <span class="photo-label">Фото блюда</span>
+            </div>
+            <div class="dish-content">
+              <div class="dish-heading">
+                <h3>Сметана</h3>
+                <strong class="price">120 ₽</strong>
+              </div>
+              <p class="description muted">Описание не указано.</p>
+              
+              <div class="portion"><span>Порция</span><b>150 гр</b></div>
+            </div>
+          </article></div>
+      </section></main>
+
+    <footer class="footer">
+      <strong>Будем рады видеть вас снова</strong>
+      Домашняя еда, спокойный отдых и тёплая атмосфера.
+      <a class="back-to-top" href="#top">Вернуться в начало</a>
+    </footer>
+  </div>
+</body>
+</html>
