@@ -1,0 +1,9 @@
+.git
+.gitignore
+.agents
+.gemini
+Dockerfile
+docker-compose.yml
+refactor.js
+README.md
+public/storage
