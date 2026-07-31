@@ -99,8 +99,8 @@
 
   function filterMenu(category) {
     menuCards.forEach(function (card) {
-      const cardCategory = card.dataset.category;
-      const shouldShow = category === 'all' || cardCategory === category;
+      const cardCategories = (card.dataset.category || '').split(/\s+/);
+      const shouldShow = category === 'all' || cardCategories.indexOf(category) !== -1;
       card.classList.toggle('is-hidden', !shouldShow);
     });
 

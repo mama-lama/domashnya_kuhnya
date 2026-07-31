@@ -2,17 +2,6 @@
 
 @section('title', 'Меню блюд')
 
-@php
-  $categories = [
-      'first' => 'Первые блюда',
-      'second' => 'Вторые блюда',
-      'salad' => 'Салаты',
-      'side' => 'Гарниры',
-      'bakery' => 'Выпечка',
-      'drinks' => 'Напитки',
-  ];
-@endphp
-
 @section('content')
 <div class="card">
   <div class="card-title">
@@ -21,17 +10,16 @@
       <a href="{{ route('admin.menu.preview') }}" target="_blank" class="btn btn-secondary" style="border: 1px solid var(--admin-border); font-size: 13px; text-decoration: none;">
         👁️ Предпросмотр шаблона
       </a>
-      <a href="/menu.pdf" target="_blank" class="btn btn-secondary" style="border: 1px solid var(--admin-border); font-size: 13px; text-decoration: none;">
-        📥 Скачать PDF
+      <a href="{{ route('admin.menu.download') }}" class="btn btn-secondary" style="border: 1px solid var(--admin-border); font-size: 13px; text-decoration: none;">
+        📥 Сгенерировать и скачать меню
       </a>
-      <form action="{{ route('admin.menu.pdf') }}" method="POST" style="margin: 0;">
-        @csrf
-        <button type="submit" class="btn btn-secondary" style="border: 1px solid var(--admin-border); font-size: 13px; cursor: pointer;">
-          ⚙️ Перегенерировать в фоне
-        </button>
-      </form>
       <a href="{{ route('admin.menu.create') }}" class="btn btn-primary" style="font-size: 13px;">Добавить блюдо</a>
     </div>
+  </div>
+
+  <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+    <input type="text" id="menuSearch" class="form-control" placeholder="🔍 Поиск блюда по названию..." style="max-width: 360px;" autocomplete="off" />
+    <span id="menuSearchCount" style="font-size: 13px; color: var(--admin-text-muted);"></span>
   </div>
 
   <div class="table-responsive">
@@ -47,9 +35,9 @@
           <th style="width: 160px; text-align: right;">Действия</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="menuTableBody">
         @forelse($menuItems as $item)
-        <tr>
+        <tr class="menu-item-row" data-search="{{ mb_strtolower($item->name . ' ' . $item->description) }}">
           <td>
             @if($item->image_url)
               <img src="{{ $item->image_url }}" alt="{{ $item->name }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid var(--admin-border);" />
@@ -62,9 +50,11 @@
             <div style="font-size: 13px; color: var(--admin-text-muted); max-width: 320px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{ $item->description }}</div>
           </td>
           <td>
-            <span class="badge badge-secondary" style="background-color: #e2e8f0; color: #334155;">
-              {{ $categories[$item->category] ?? $item->category }}
-            </span>
+            @foreach($item->categorySlugs() as $slug)
+              <span class="badge badge-secondary" style="background-color: #e2e8f0; color: #334155;">
+                {{ $categories[$slug] ?? $slug }}
+              </span>
+            @endforeach
           </td>
           <td style="font-weight: 700; color: var(--admin-primary);">{{ $item->price }} ₽</td>
           <td>{{ $item->weight }}</td>
@@ -94,5 +84,32 @@
       </tbody>
     </table>
   </div>
+
+  <div id="menuSearchEmpty" style="display: none; text-align: center; padding: 30px 0; color: var(--admin-text-muted);">По вашему запросу ничего не найдено.</div>
 </div>
+
+<script>
+  (function () {
+    var input = document.getElementById('menuSearch');
+    var count = document.getElementById('menuSearchCount');
+    var empty = document.getElementById('menuSearchEmpty');
+    var rows = Array.from(document.querySelectorAll('.menu-item-row'));
+
+    function applyFilter() {
+      var query = input.value.trim().toLowerCase();
+      var visible = 0;
+
+      rows.forEach(function (row) {
+        var match = query === '' || row.dataset.search.indexOf(query) !== -1;
+        row.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      empty.style.display = (rows.length > 0 && visible === 0) ? 'block' : 'none';
+      count.textContent = query === '' ? '' : 'Найдено: ' + visible;
+    }
+
+    input.addEventListener('input', applyFilter);
+  })();
+</script>
 @endsection

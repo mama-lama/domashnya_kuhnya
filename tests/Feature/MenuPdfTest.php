@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\MenuItem;
 use App\Models\Setting;
 use App\Models\User;
+use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,20 +13,10 @@ class MenuPdfTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_authenticated_admin_can_trigger_menu_pdf_generation(): void
-    {
-        $admin = User::factory()->create();
-
-        $response = $this
-            ->actingAs($admin)
-            ->post(route('admin.menu.pdf'));
-
-        $response->assertRedirect();
-        $response->assertSessionHas('success');
-    }
-
     public function test_artisan_command_generates_menu_pdf(): void
     {
+        $this->seed(CategorySeeder::class);
+
         Setting::create([
             'key' => 'site_title',
             'value' => 'Домашняя кухня',
@@ -54,11 +45,5 @@ class MenuPdfTest extends TestCase
         $this->assertStringStartsWith('%PDF-', file_get_contents($outputPath));
 
         @unlink($outputPath);
-    }
-
-    public function test_guest_cannot_generate_menu_pdf(): void
-    {
-        $this->post(route('admin.menu.pdf'))
-            ->assertRedirect(route('login'));
     }
 }

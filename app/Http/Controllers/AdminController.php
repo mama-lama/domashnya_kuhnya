@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -48,12 +49,14 @@ class AdminController extends Controller
     public function menuIndex()
     {
         $menuItems = MenuItem::latest()->get();
-        return view('admin.menu.index', compact('menuItems'));
+        $categories = Category::orderBy('sort_order')->pluck('name', 'slug');
+        return view('admin.menu.index', compact('menuItems', 'categories'));
     }
 
     public function menuCreate()
     {
-        return view('admin.menu.edit');
+        $categories = Category::orderBy('sort_order')->pluck('name', 'slug');
+        return view('admin.menu.edit', compact('categories'));
     }
 
     public function menuStore(Request $request)
@@ -64,11 +67,20 @@ class AdminController extends Controller
             'ingredients' => ['nullable', 'string'],
             'price' => ['required', 'integer', 'min:0'],
             'weight' => ['nullable', 'string', 'max:50'],
-            'category' => ['required', 'string', 'max:50'],
+            'category' => ['required', 'array', 'min:1'],
+            'category.*' => ['string', 'max:50'],
+            'new_category' => ['nullable', 'string', 'max:50'],
             'tag' => ['nullable', 'string', 'max:50'],
-            'image' => ['nullable', 'image', 'max:2048'], // Max 2MB image
+            'image' => ['nullable', 'image', 'max:10240'], // Max 10MB image
             'image_url' => ['nullable', 'url', 'max:2048'], // Fallback url input
         ]);
+
+        if (in_array('__new', $validated['category'], true) && !$request->filled('new_category')) {
+            return back()->withInput()->withErrors(['new_category' => 'Укажите название новой категории.']);
+        }
+
+        $validated['category'] = implode(',', $this->resolveCategorySlugs($request));
+        unset($validated['new_category']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('menu', 'public');
@@ -82,7 +94,8 @@ class AdminController extends Controller
 
     public function menuEdit(MenuItem $menuItem)
     {
-        return view('admin.menu.edit', compact('menuItem'));
+        $categories = Category::orderBy('sort_order')->pluck('name', 'slug');
+        return view('admin.menu.edit', compact('menuItem', 'categories'));
     }
 
     public function menuUpdate(Request $request, MenuItem $menuItem)
@@ -93,11 +106,20 @@ class AdminController extends Controller
             'ingredients' => ['nullable', 'string'],
             'price' => ['required', 'integer', 'min:0'],
             'weight' => ['nullable', 'string', 'max:50'],
-            'category' => ['required', 'string', 'max:50'],
+            'category' => ['required', 'array', 'min:1'],
+            'category.*' => ['string', 'max:50'],
+            'new_category' => ['nullable', 'string', 'max:50'],
             'tag' => ['nullable', 'string', 'max:50'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:10240'],
             'image_url' => ['nullable', 'string', 'max:2048'],
         ]);
+
+        if (in_array('__new', $validated['category'], true) && !$request->filled('new_category')) {
+            return back()->withInput()->withErrors(['new_category' => 'Укажите название новой категории.']);
+        }
+
+        $validated['category'] = implode(',', $this->resolveCategorySlugs($request));
+        unset($validated['new_category']);
 
         if ($request->hasFile('image')) {
             // Delete old image if it was uploaded locally
@@ -123,16 +145,55 @@ class AdminController extends Controller
         return redirect()->route('admin.menu.index')->with('success', 'Блюдо успешно удалено!');
     }
 
-    public function generateMenuPdf(MenuPdfService $service)
+    // Returns the slugs of the selected categories, creating a new one when the
+    // "new category" option (__new) was chosen in the dish form.
+    private function resolveCategorySlugs(Request $request): array
     {
-        // Run Artisan command in the background to avoid web server timeouts
-        if (substr(php_uname(), 0, 7) == "Windows") {
-            pclose(popen("start /B php artisan menu:generate-pdf", "r"));
-        } else {
-            exec("php artisan menu:generate-pdf > /dev/null &");
+        $slugs = $request->input('category', []);
+
+        if (!in_array('__new', $slugs, true)) {
+            return array_values($slugs);
         }
 
-        return redirect()->back()->with('success', 'Генерация PDF меню запущена в фоновом режиме. Пожалуйста, подождите 5-10 секунд и скачайте файл.');
+        $slugs = array_values(array_diff($slugs, ['__new']));
+        $slugs[] = $this->createCategory(trim($request->input('new_category')));
+
+        return $slugs;
+    }
+
+    private function createCategory(string $name): string
+    {
+        $baseSlug = Str::slug($name) !== '' ? Str::slug($name) : 'category';
+
+        $slug = $baseSlug;
+        $suffix = 2;
+        while (Category::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $suffix++;
+        }
+
+        Category::create([
+            'slug' => $slug,
+            'name' => $name,
+            'sort_order' => (int) Category::max('sort_order') + 10,
+        ]);
+
+        return $slug;
+    }
+
+    public function downloadMenuPdf()
+    {
+        $path = public_path('menu.pdf');
+
+        // Always regenerate the PDF so the download reflects current
+        // settings and menu data.
+        Artisan::call('menu:generate-pdf');
+
+        if (!file_exists($path)) {
+            return redirect()->route('admin.menu.index')
+                ->with('error', 'Не удалось сгенерировать PDF меню. Подробности в storage/logs/pdf_generate.log');
+        }
+
+        return response()->download($path, 'menu.pdf');
     }
 
     public function previewMenu(MenuPdfService $service)

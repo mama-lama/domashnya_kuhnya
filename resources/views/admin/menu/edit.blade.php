@@ -2,17 +2,6 @@
 
 @section('title', isset($menuItem) ? 'Редактировать блюдо' : 'Добавить блюдо')
 
-@php
-  $categories = [
-      'first' => 'Первые блюда',
-      'second' => 'Вторые блюда',
-      'salad' => 'Салаты',
-      'side' => 'Гарниры',
-      'bakery' => 'Выпечка',
-      'drinks' => 'Напитки',
-  ];
-@endphp
-
 @section('content')
 <div class="card" style="max-width: 700px;">
   <div class="card-title">
@@ -44,15 +33,32 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
       <div class="form-group" style="margin-bottom: 0;">
-        <label for="category" class="form-label">Категория *</label>
-        <select name="category" id="category" class="form-control" required>
-          <option value="">-- Выберите категорию --</option>
+        <label class="form-label">Категории * <span style="font-weight: 400; color: var(--admin-text-muted);">(можно выбрать несколько)</span></label>
+        @php
+          $selectedCategories = old('category', isset($menuItem) ? $menuItem->categorySlugs() : []);
+          $selectedCategories = is_array($selectedCategories) ? $selectedCategories : explode(',', (string) $selectedCategories);
+        @endphp
+        <div style="display: flex; flex-direction: column; gap: 6px;">
           @foreach($categories as $value => $label)
-            <option value="{{ $value }}" {{ (old('category', $menuItem->category ?? '') === $value) ? 'selected' : '' }}>
+            <label style="display: flex; align-items: center; gap: 8px; font-weight: 400; cursor: pointer;">
+              <input type="checkbox" name="category[]" value="{{ $value }}" {{ in_array($value, $selectedCategories, true) ? 'checked' : '' }} />
               {{ $label }}
-            </option>
+            </label>
           @endforeach
-        </select>
+          <label style="display: flex; align-items: center; gap: 8px; font-weight: 400; cursor: pointer;">
+            <input type="checkbox" name="category[]" value="__new" id="category_new" {{ in_array('__new', $selectedCategories, true) ? 'checked' : '' }} />
+            ➕ Новая категория…
+          </label>
+        </div>
+        <div id="newCategoryGroup" style="margin-top: 10px; display: none;">
+          <input type="text" name="new_category" id="new_category" value="{{ old('new_category') }}" class="form-control" placeholder="Название новой категории" maxlength="50" />
+        </div>
+        @error('category')
+          <div style="color: #dc2626; font-size: 12px; margin-top: 6px;">{{ $message }}</div>
+        @enderror
+        @error('new_category')
+          <div style="color: #dc2626; font-size: 12px; margin-top: 6px;">{{ $message }}</div>
+        @enderror
       </div>
 
       <div class="form-group" style="margin-bottom: 0;">
@@ -100,4 +106,24 @@
     </div>
   </form>
 </div>
+
+<script>
+  (function () {
+    var checkbox = document.getElementById('category_new');
+    var group = document.getElementById('newCategoryGroup');
+    var input = document.getElementById('new_category');
+
+    function toggleNewCategory() {
+      var isNew = checkbox.checked;
+      group.style.display = isNew ? 'block' : 'none';
+      input.required = isNew;
+      if (!isNew) {
+        input.value = '';
+      }
+    }
+
+    checkbox.addEventListener('change', toggleNewCategory);
+    toggleNewCategory();
+  })();
+</script>
 @endsection

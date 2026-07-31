@@ -24,7 +24,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Menu Management
     Route::get('/menu', [AdminController::class, 'menuIndex'])->name('menu.index');
-    Route::post('/menu/generate-pdf', [AdminController::class, 'generateMenuPdf'])->name('menu.pdf');
+    Route::get('/menu/download-pdf', [AdminController::class, 'downloadMenuPdf'])->name('menu.download');
     Route::get('/menu/preview', [AdminController::class, 'previewMenu'])->name('menu.preview');
     Route::get('/menu/create', [AdminController::class, 'menuCreate'])->name('menu.create');
     Route::post('/menu', [AdminController::class, 'menuStore'])->name('menu.store');

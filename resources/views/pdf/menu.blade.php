@@ -147,38 +147,36 @@
 
     .menu-row {
       width: 100%;
-      margin: 0 0 5px;
-      border-collapse: separate;
-      border-spacing: 4px 0;
-      table-layout: fixed;
+      margin: 0 0 8px;
+      border-collapse: collapse;
       page-break-inside: avoid;
     }
 
     .menu-cell {
-      width: 50%;
+      width: 100%;
       padding: 0;
       vertical-align: top;
     }
 
     .menu-card {
-      height: 130px;
+      height: 150px;
       overflow: hidden;
       border: 2px solid #cfd9bc;
-      border-radius: 13px;
+      border-radius: 10px;
       background: #ffffff;
       page-break-inside: avoid;
     }
 
     .card-table {
       width: 100%;
-      height: 126px;
+      height: 146px;
       border-collapse: collapse;
       table-layout: fixed;
     }
 
     .card-img-cell {
-      width: 126px;
-      height: 126px;
+      width: 146px;
+      height: 146px;
       padding: 0;
       vertical-align: middle;
       text-align: center;
@@ -186,30 +184,30 @@
     }
 
     .card-content-cell {
-      height: 126px;
+      height: 146px;
       padding: 0;
       vertical-align: top;
     }
 
     .card-img {
       display: block;
-      width: 126px;
-      height: 126px;
-      border-top-left-radius: 11px;
-      border-bottom-left-radius: 11px;
+      width: 146px;
+      height: 146px;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
       background: #eef1df;
     }
 
     .card-img-placeholder {
       display: block;
-      width: 126px;
-      height: 126px;
-      padding-top: 55px;
+      width: 146px;
+      height: 146px;
+      padding-top: 65px;
       color: #52782a;
       background: #eef1df;
-      border-top-left-radius: 11px;
-      border-bottom-left-radius: 11px;
-      font-size: 8px;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      font-size: 9px;
       font-weight: bold;
       letter-spacing: 1px;
       text-align: center;
@@ -217,29 +215,29 @@
     }
 
     .card-content {
-      padding: 10px 12px;
-      height: 126px;
+      padding: 12px 16px;
+      height: 146px;
       overflow: hidden;
     }
 
     .card-heading {
       width: 100%;
-      margin-bottom: 4px;
+      margin-bottom: 12px;
       border-collapse: collapse;
     }
 
     .card-title {
-      padding: 0 6px 0 0;
+      padding: 0 10px 0 0;
       color: #2e431b;
       font-family: DejaVu Serif, serif;
-      font-size: 12px;
+      font-size: 18px;
       font-weight: bold;
-      line-height: 1.18;
+      line-height: 1.15;
       vertical-align: top;
     }
 
     .card-price-cell {
-      width: 70px;
+      width: 80px;
       padding: 0;
       text-align: right;
       vertical-align: top;
@@ -247,29 +245,28 @@
 
     .card-price {
       display: inline-block;
-      padding: 4px 6px;
+      padding: 6px 10px;
       border-radius: 6px;
       background: #52782a;
       color: #ffffff;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: bold;
       white-space: nowrap;
     }
 
     .card-description {
-      margin: 0 0 4px;
+      margin: 0 0 10px;
       color: #3a4032;
-      font-size: 9px;
-      line-height: 1.3;
-      display: none;
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .card-ingredients {
-      margin: 0 0 4px;
+      margin: 0 0 8px;
       color: #5e6154;
       font-size: 11px;
       font-style: italic;
-      line-height: 1.25;
+      line-height: 1.3;
     }
 
     .card-tag {
@@ -282,15 +279,15 @@
 
     .card-portion {
       width: 100%;
-      margin-top: 4px;
-      padding-top: 4px;
+      margin-top: 8px;
+      padding-top: 6px;
       border-top: 1px dashed #cfd9bc;
       color: #4a4e40;
-      font-size: 9px;
+      font-size: 11px;
     }
 
     .card-portion-value {
-      color: #3f5d22;
+      color: #26301f;
       font-weight: bold;
       text-align: right;
     }
@@ -338,7 +335,7 @@
         </tr>
       </table>
 
-      @foreach($section['items']->chunk(2) as $row)
+      @foreach($section['items']->chunk(1) as $row)
         <table class="menu-row">
           <tr>
             @foreach($row as $item)
@@ -346,13 +343,13 @@
                 <div class="menu-card">
                   <table class="card-table">
                     <colgroup>
-                      <col style="width: 126px;">
+                      <col style="width: 146px;">
                       <col style="width: auto;">
                     </colgroup>
                     <tr>
                       <td class="card-img-cell">
                         @if($item->pdf_image_url)
-                          <img class="card-img" width="126" height="126" src="{{ $item->pdf_image_url }}" alt="{{ $item->name }}">
+                          <img class="card-img" width="146" height="146" src="{{ $item->pdf_image_url }}" alt="{{ $item->name }}">
                         @else
                           <div class="card-img-placeholder">Фото блюда</div>
                         @endif
@@ -366,6 +363,10 @@
                             </tr>
                           </table>
 
+                          @if($item->description)
+                            <p class="card-description">{{ $item->description }}</p>
+                          @endif
+
                           @if($item->ingredients)
                             <p class="card-ingredients">Состав: {{ $item->ingredients }}</p>
                           @endif
@@ -376,8 +377,8 @@
 
                           <table class="card-portion">
                             <tr>
-                              <td>Порция</td>
-                              <td class="card-portion-value">{{ $item->weight ?: 'не указана' }}</td>
+                              <td></td>
+                              <td class="card-portion-value">Порция: {{ $item->weight ?: 'не указана' }}</td>
                             </tr>
                           </table>
                         </div>
@@ -387,10 +388,6 @@
                 </div>
               </td>
             @endforeach
-
-            @for($column = $row->count(); $column < 2; $column++)
-              <td class="menu-cell"></td>
-            @endfor
           </tr>
         </table>
       @endforeach

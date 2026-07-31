@@ -29,6 +29,12 @@ RUN apk add --no-cache \
 COPY --from=wkhtmltopdf_bin /bin/wkhtmltopdf /usr/bin/wkhtmltopdf
 COPY --from=wkhtmltopdf_bin /bin/libwkhtmltox.so* /usr/lib/
 
+# Raise upload limits to match nginx client_max_body_size (20m)
+RUN { \
+    echo 'upload_max_filesize = 20M'; \
+    echo 'post_max_size = 25M'; \
+    } > /usr/local/etc/php/conf.d/uploads.ini
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

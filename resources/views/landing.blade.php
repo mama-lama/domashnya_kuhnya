@@ -150,17 +150,14 @@
 
         <div class="menu-tabs" id="menuTabs">
           <button class="menu-tab is-active" type="button" data-filter="all">Все блюда</button>
-          <button class="menu-tab" type="button" data-filter="first">Первые блюда</button>
-          <button class="menu-tab" type="button" data-filter="second">Вторые блюда</button>
-          <button class="menu-tab" type="button" data-filter="salad">Салаты</button>
-          <button class="menu-tab" type="button" data-filter="side">Гарниры</button>
-          <button class="menu-tab" type="button" data-filter="bakery">Выпечка</button>
-          <button class="menu-tab" type="button" data-filter="drinks">Напитки</button>
+          @foreach($categories as $category)
+          <button class="menu-tab" type="button" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
+          @endforeach
         </div>
 
         <div class="menu-grid">
           @foreach($menuItems as $item)
-          <article class="dish-card" data-category="{{ $item->category }}">
+          <article class="dish-card" data-category="{{ implode(' ', $item->categorySlugs()) }}">
             <div class="dish-card__image">
               @if($item->tag)
               <span class="tag tag--badge">{{ $item->tag }}</span>

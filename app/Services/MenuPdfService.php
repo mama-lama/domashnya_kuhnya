@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\MenuItem;
+use App\Models\Category;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -21,17 +22,7 @@ class MenuPdfService
                 return $item;
             });
 
-        $sectionTitles = [
-            'first' => 'Первые блюда',
-            'salad' => 'Салаты',
-            'second' => 'Вторые блюда',
-            'order' => 'Блюда под заказ',
-            'side' => 'Гарниры',
-            'drinks' => 'Напитки',
-            'bakery' => 'Выпечка',
-            'bread' => 'Хлеб',
-            'extra' => 'Дополнительно',
-        ];
+        $sectionTitles = Category::orderBy('sort_order')->pluck('name', 'slug');
 
         $menuSections = collect($sectionTitles)
             ->map(function (string $title, string $key) use ($items): array {
@@ -39,7 +30,7 @@ class MenuPdfService
                     'key' => $key,
                     'title' => $title,
                     'items' => $items
-                        ->filter(fn (MenuItem $item): bool => $this->resolvePdfSection($item) === $key)
+                        ->filter(fn (MenuItem $item): bool => in_array($key, $this->resolvePdfSections($item), true))
                         ->values(),
                 ];
             })
@@ -70,23 +61,26 @@ class MenuPdfService
         return file_put_contents($path, $content) !== false;
     }
 
-    private function resolvePdfSection(MenuItem $item): string
+    // A dish can belong to several categories, so it may appear in several
+    // PDF sections at once. Tag/name-based rules add extra sections.
+    private function resolvePdfSections(MenuItem $item): array
     {
+        $sections = $item->categorySlugs();
         $tag = Str::lower($item->tag ?? '');
 
-        if ($item->category === 'order' || Str::contains($tag, 'под заказ')) {
-            return 'order';
+        if (Str::contains($tag, 'под заказ') && !in_array('order', $sections, true)) {
+            $sections[] = 'order';
         }
 
-        if ($item->category === 'extra' || Str::contains($tag, 'дополнительно')) {
-            return 'extra';
+        if (Str::contains($tag, 'дополнительно') && !in_array('extra', $sections, true)) {
+            $sections[] = 'extra';
         }
 
-        if ($item->category === 'bread' || in_array($item->name, ['Хлеб белый', 'Хлеб черный', 'Лаваш'], true)) {
-            return 'bread';
+        if (in_array($item->name, ['Хлеб белый', 'Хлеб черный', 'Лаваш'], true) && !in_array('bread', $sections, true)) {
+            $sections[] = 'bread';
         }
 
-        return $item->category;
+        return $sections;
     }
 
     private function resolvePdfImageUrl(?string $imageUrl): ?string
