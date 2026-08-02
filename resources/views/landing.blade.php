@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ $settings['site_title'] ?? 'Домашняя кухня у дороги' }}</title>
-  <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/main.css') }}?v={{ filemtime(public_path('css/main.css')) }}" />
 </head>
 <body>
   <header class="header">
@@ -95,10 +95,9 @@
             <article class="feature-card">
               <div class="feature-card__icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 3h16v5H4z"/>
-                  <path d="M5 8v4a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8"/>
-                  <path d="M9 15v6"/>
-                  <path d="M15 15v6"/>
+                  <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                  <path d="M7 2v20"/>
+                  <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
                 </svg>
               </div>
               <h3>Домашняя кухня</h3>
@@ -107,9 +106,9 @@
             <article class="feature-card">
               <div class="feature-card__icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 12h18"/>
-                  <path d="M6 7 3 12l3 5"/>
-                  <path d="M18 7l3 5-3 5"/>
+                  <circle cx="6" cy="19" r="3"/>
+                  <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>
+                  <circle cx="18" cy="5" r="3"/>
                 </svg>
               </div>
               <h3>Удобно по пути</h3>
@@ -118,8 +117,10 @@
             <article class="feature-card">
               <div class="feature-card__icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22c4-4 7-6.7 7-11a7 7 0 1 0-14 0c0 4.3 3 7 7 11Z"/>
-                  <path d="M12 11a2.5 2.5 0 1 0 0-.01Z"/>
+                  <path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/>
+                  <path d="M7 16v6"/>
+                  <path d="M13 19v3"/>
+                  <path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/>
                 </svg>
               </div>
               <h3>Сад с фонтаном</h3>
@@ -238,7 +239,32 @@
         <div class="info-layout">
           <article class="info-card">
             <div class="info-image">
-              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Комнаты под съём" loading="lazy" />
+              <div class="rooms-slider" id="roomsSlider">
+                <div class="rooms-slider__track" id="roomsTrack">
+                  @forelse($roomImages as $roomImage)
+                  <div class="rooms-slider__slide">
+                    <img src="{{ $roomImage }}" alt="Комната под съём, фото {{ $loop->iteration }}" loading="lazy" />
+                  </div>
+                  @empty
+                  <div class="rooms-slider__slide">
+                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Комнаты под съём" loading="lazy" />
+                  </div>
+                  @endforelse
+                </div>
+                @if($roomImages->count() > 1)
+                <button class="rooms-slider__btn rooms-slider__btn--prev" id="roomsPrev" type="button" aria-label="Предыдущее фото">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-6-6 6-6"/>
+                  </svg>
+                </button>
+                <button class="rooms-slider__btn rooms-slider__btn--next" id="roomsNext" type="button" aria-label="Следующее фото">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6"/>
+                  </svg>
+                </button>
+                <div class="rooms-slider__dots" id="roomsDots"></div>
+                @endif
+              </div>
             </div>
             <div class="info-body">
               <h3>Комнаты под съём</h3>
@@ -417,6 +443,29 @@
     </div>
   </footer>
 
-  <script src="{{ asset('js/main.js') }}"></script>
+  <div class="lightbox" id="roomsLightbox" aria-hidden="true" role="dialog" aria-label="Фотографии комнат">
+    <button class="lightbox__close" id="lightboxClose" type="button" aria-label="Закрыть">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+    <button class="lightbox__btn lightbox__btn--prev" id="lightboxPrev" type="button" aria-label="Предыдущее фото">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+    </button>
+    <div class="lightbox__stage">
+      <img class="lightbox__image" id="lightboxImage" src="" alt="Комната под съём" />
+      <div class="lightbox__counter" id="lightboxCounter"></div>
+    </div>
+    <button class="lightbox__btn lightbox__btn--next" id="lightboxNext" type="button" aria-label="Следующее фото">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    </button>
+  </div>
+
+  <script src="{{ asset('js/main.js') }}?v={{ filemtime(public_path('js/main.js')) }}"></script>
 </body>
 </html>

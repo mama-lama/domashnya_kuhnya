@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\Review;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -21,7 +22,10 @@ class LandingController extends Controller
             ))
             ->values();
         $reviews = Review::where('is_active', true)->get();
+        $roomImages = collect(File::exists(public_path('images/rooms')) ? File::files(public_path('images/rooms')) : [])
+            ->map(fn ($file) => asset('images/rooms/' . $file->getFilename()))
+            ->values();
 
-        return view('landing', compact('settings', 'menuItems', 'categories', 'reviews'));
+        return view('landing', compact('settings', 'menuItems', 'categories', 'reviews', 'roomImages'));
     }
 }
