@@ -27,16 +27,16 @@ class DatabaseSeeder extends Seeder
         // 2. Seed Settings
         $settings = [
             // General info
-            ['key' => 'site_title', 'value' => 'Домашняя кухня у дороги', 'group' => 'general'],
-            ['key' => 'phone', 'value' => '+7 (999) 123-45-67', 'group' => 'general'],
-            ['key' => 'phone_raw', 'value' => '+79991234567', 'group' => 'general'],
+            ['key' => 'site_title', 'value' => 'Домашняя кухня', 'group' => 'general'],
+            ['key' => 'phone', 'value' => '+7 (920) 223-80-60', 'group' => 'general'],
+            ['key' => 'phone_raw', 'value' => '+79202238060', 'group' => 'general'],
             ['key' => 'address', 'value' => 'ул. Сенновские Выселки, 12, д. Князево', 'group' => 'general'],
-            ['key' => 'working_hours', 'value' => 'Ежедневно с 08:00 до 22:00', 'group' => 'general'],
+            ['key' => 'working_hours', 'value' => 'Круглосуточно', 'group' => 'general'],
 
             // Hero section
             ['key' => 'hero_tag', 'value' => 'Уютная остановка для всей семьи', 'group' => 'hero'],
             ['key' => 'hero_title', 'value' => 'Домашняя кухня, сад и спокойный отдых у дороги', 'group' => 'hero'],
-            ['key' => 'hero_description', 'value' => 'Уютное придорожное кафе с тёплой домашней атмосферой, зелёным садом, фонтаном, верандой, комнатами под съём и возможностью провести семейное торжество. Заезжайте отдохнуть, вкусно поесть и перевести дух в дороге.', 'group' => 'hero'],
+            ['key' => 'hero_description', 'value' => 'Мы рады видеть наших посетителей! Здесь можно вкусно поесть, отдохнуть с дороги и провести время в приятной, по-домашнему уютной обстановке.', 'group' => 'hero'],
         ];
 
         foreach ($settings as $setting) {
