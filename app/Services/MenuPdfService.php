@@ -26,18 +26,62 @@ class MenuPdfService
 
         $menuSections = collect($sectionTitles)
             ->map(function (string $title, string $key) use ($items): array {
+                $sectionItems = $items
+                    ->filter(fn (MenuItem $item): bool => in_array($key, $this->resolvePdfSections($item), true))
+                    ->values();
+
                 return [
                     'key' => $key,
                     'title' => $title,
-                    'items' => $items
-                        ->filter(fn (MenuItem $item): bool => in_array($key, $this->resolvePdfSections($item), true))
-                        ->values(),
+                    'items' => $this->groupItemsForPdf($sectionItems),
                 ];
             })
             ->filter(fn (array $section): bool => $section['items']->isNotEmpty())
             ->values();
 
         return compact('settings', 'menuSections');
+    }
+
+    private function groupItemsForPdf($items)
+    {
+        $grouped = [];
+
+        foreach ($items as $item) {
+            $name = $item->name;
+            if (!isset($grouped[$name])) {
+                $grouped[$name] = [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'ingredients' => $item->ingredients,
+                    'tag' => $item->tag,
+                    'pdf_image_url' => $item->pdf_image_url,
+                    'price' => $item->price,
+                    'weight' => $item->weight,
+                    'has_multiple_portions' => false,
+                    'min_price' => $item->price,
+                    'portions' => [
+                        [
+                            'weight' => $item->weight,
+                            'price' => $item->price,
+                        ],
+                    ],
+                ];
+            } else {
+                $grouped[$name]['has_multiple_portions'] = true;
+                $grouped[$name]['portions'][] = [
+                    'weight' => $item->weight,
+                    'price' => $item->price,
+                ];
+                if ($item->price < $grouped[$name]['min_price']) {
+                    $grouped[$name]['min_price'] = $item->price;
+                }
+            }
+        }
+
+        return collect(array_values($grouped))->map(function ($data) {
+            return (object) $data;
+        });
     }
 
     public function generatePdfContent(): string

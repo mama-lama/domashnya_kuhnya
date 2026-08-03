@@ -148,45 +148,33 @@
     .menu-row {
       width: 100%;
       margin: 0 0 8px;
-      border-collapse: collapse;
       page-break-inside: avoid;
     }
 
     .menu-cell {
       width: 100%;
       padding: 0;
-      vertical-align: top;
     }
 
     .menu-card {
+      position: relative;
+      width: 100%;
       height: 150px;
       overflow: hidden;
       border: 2px solid #cfd9bc;
       border-radius: 10px;
       background: #ffffff;
       page-break-inside: avoid;
+      box-sizing: border-box;
     }
 
-    .card-table {
-      width: 100%;
-      height: 146px;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .card-img-cell {
+    .card-img-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 146px;
       height: 146px;
-      padding: 0;
-      vertical-align: middle;
-      text-align: center;
       border-right: 1px solid #dce4cc;
-    }
-
-    .card-content-cell {
-      height: 146px;
-      padding: 0;
-      vertical-align: top;
     }
 
     .card-img {
@@ -214,15 +202,16 @@
       text-transform: uppercase;
     }
 
-    .card-content {
-      padding: 12px 16px;
-      height: 146px;
-      overflow: hidden;
+    .card-main-info {
+      position: absolute;
+      top: 10px;
+      left: 160px;
+      right: 14px;
     }
 
     .card-heading {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
       border-collapse: collapse;
     }
 
@@ -230,7 +219,7 @@
       padding: 0 10px 0 0;
       color: #2e431b;
       font-family: DejaVu Serif, serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
       line-height: 1.15;
       vertical-align: top;
@@ -245,51 +234,95 @@
 
     .card-price {
       display: inline-block;
-      padding: 6px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       background: #52782a;
       color: #ffffff;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       white-space: nowrap;
     }
 
     .card-description {
-      margin: 0 0 10px;
+      margin: 0 0 4px;
       color: #3a4032;
-      font-size: 12px;
-      line-height: 1.35;
+      font-size: 11px;
+      line-height: 1.25;
     }
 
     .card-ingredients {
-      margin: 0 0 8px;
+      margin: 0 0 4px;
       color: #5e6154;
-      font-size: 11px;
+      font-size: 10px;
       font-style: italic;
-      line-height: 1.3;
+      line-height: 1.2;
     }
 
     .card-tag {
-      margin: 0 0 4px;
+      margin: 0 0 3px;
       color: #d96d3c;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: bold;
       text-transform: uppercase;
     }
 
+    .card-bottom-info {
+      position: absolute;
+      bottom: 8px;
+      left: 160px;
+      right: 14px;
+    }
+
     .card-portion {
       width: 100%;
-      margin-top: 8px;
-      padding-top: 6px;
+      margin: 0;
+      padding-top: 4px;
+      padding-bottom: 0;
       border-top: 1px dashed #cfd9bc;
       color: #4a4e40;
-      font-size: 11px;
+      font-size: 10px;
+      line-height: 1.15;
     }
 
     .card-portion-value {
       color: #26301f;
       font-weight: bold;
       text-align: right;
+      line-height: 1.15;
+    }
+
+    .card-portions-block {
+      width: 100%;
+      margin: 0;
+      padding-top: 4px;
+      padding-bottom: 0;
+      border-top: 1px dashed #cfd9bc;
+    }
+
+    .card-portions-title {
+      margin-bottom: 2px;
+      color: #3a4032;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .card-portions-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .portion-weight {
+      color: #4a4e40;
+      font-size: 10px;
+      padding: 0;
+    }
+
+    .portion-price {
+      color: #26301f;
+      font-size: 10px;
+      font-weight: bold;
+      text-align: right;
+      padding: 0;
     }
 
     .page-footer {
@@ -336,60 +369,66 @@
       </table>
 
       @foreach($section['items']->chunk(1) as $row)
-        <table class="menu-row">
-          <tr>
-            @foreach($row as $item)
-              <td class="menu-cell">
-                <div class="menu-card">
-                  <table class="card-table">
-                    <colgroup>
-                      <col style="width: 146px;">
-                      <col style="width: auto;">
-                    </colgroup>
-                    <tr>
-                      <td class="card-img-cell">
-                        @if($item->pdf_image_url)
-                          <img class="card-img" width="146" height="146" src="{{ $item->pdf_image_url }}" alt="{{ $item->name }}">
-                        @else
-                          <div class="card-img-placeholder">Фото блюда</div>
-                        @endif
-                      </td>
-                      <td class="card-content-cell">
-                        <div class="card-content">
-                          <table class="card-heading">
-                            <tr>
-                              <td class="card-title">{{ $item->name }}</td>
-                              <td class="card-price-cell"><span class="card-price">{{ $item->price }} ₽</span></td>
-                            </tr>
-                          </table>
+        <div class="menu-row">
+          @foreach($row as $item)
+            <div class="menu-card">
+              <div class="card-img-wrapper">
+                @if($item->pdf_image_url)
+                  <img class="card-img" width="146" height="146" src="{{ $item->pdf_image_url }}" alt="{{ $item->name }}">
+                @else
+                  <div class="card-img-placeholder">Фото блюда</div>
+                @endif
+              </div>
 
-                          @if($item->description)
-                            <p class="card-description">{{ $item->description }}</p>
-                          @endif
+              <div class="card-main-info">
+                <table class="card-heading">
+                  <tr>
+                    <td class="card-title">{{ $item->name }}</td>
+                    <td class="card-price-cell">
+                      @if(!empty($item->has_multiple_portions))
+                        <span class="card-price">от {{ $item->min_price }} ₽</span>
+                      @else
+                        <span class="card-price">{{ $item->price }} ₽</span>
+                      @endif
+                    </td>
+                  </tr>
+                </table>
 
-                          @if($item->ingredients)
-                            <p class="card-ingredients">Состав: {{ $item->ingredients }}</p>
-                          @endif
+                @if($item->description)
+                  <p class="card-description">{{ $item->description }}</p>
+                @endif
 
-                          @if($item->tag)
-                            <div class="card-tag">{{ $item->tag }}</div>
-                          @endif
+                @if($item->ingredients)
+                  <p class="card-ingredients">Состав: {{ $item->ingredients }}</p>
+                @endif
 
-                          <table class="card-portion">
-                            <tr>
-                              <td></td>
-                              <td class="card-portion-value">Порция: {{ $item->weight ?: 'не указана' }}</td>
-                            </tr>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </td>
-            @endforeach
-          </tr>
-        </table>
+                @if($item->tag)
+                  <div class="card-tag">{{ $item->tag }}</div>
+                @endif
+              </div>
+
+              <div class="card-bottom-info">
+                @if(!empty($item->has_multiple_portions))
+                  <div class="card-portions-block">
+                    <div class="card-portions-title">Порции и цены:</div>
+                    <table class="card-portions-table">
+                      @foreach($item->portions as $portion)
+                        <tr>
+                          <td class="portion-weight">{{ $portion['weight'] }}</td>
+                          <td class="portion-price">{{ $portion['price'] }} ₽</td>
+                        </tr>
+                      @endforeach
+                    </table>
+                  </div>
+                @else
+                  <div class="card-portion">
+                    <div class="card-portion-value">Порция: {{ $item->weight ?: 'не указана' }}</div>
+                  </div>
+                @endif
+              </div>
+            </div>
+          @endforeach
+        </div>
       @endforeach
     </section>
   @endforeach

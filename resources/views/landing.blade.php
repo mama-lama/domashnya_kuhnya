@@ -168,7 +168,7 @@
             <div class="dish-card__body">
               <div class="dish-card__top">
                 <h3 class="dish-card__title">{{ $item->name }}</h3>
-                <span class="dish-card__price">{{ $item->price }} ₽</span>
+                <span class="dish-card__price">{{ $item->display_price ?? ($item->price . ' ₽') }}</span>
               </div>
               <p class="dish-card__desc">{{ $item->description }}</p>
               @if($item->ingredients)
@@ -176,9 +176,21 @@
                   <strong>Состав:</strong> {{ $item->ingredients }}
                 </p>
               @endif
-              <div class="dish-card__meta">
-                <span>{{ $item->weight }}</span>
-              </div>
+              @if(!empty($item->has_multiple_portions))
+                <div class="dish-card__portions" style="margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--border);">
+                  <div style="font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px;">Порции и цены:</div>
+                  @foreach($item->portions as $portion)
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 2px;">
+                      <span>{{ $portion['weight'] }}</span>
+                      <strong style="color: var(--text);">{{ $portion['price'] }} ₽</strong>
+                    </div>
+                  @endforeach
+                </div>
+              @else
+                <div class="dish-card__meta" style="margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--border); text-align: right;">
+                  <span style="font-weight: 600; font-size: 13px; color: var(--text);">Порция: {{ $item->display_weight ?? $item->weight }}</span>
+                </div>
+              @endif
             </div>
           </article>
           @endforeach
