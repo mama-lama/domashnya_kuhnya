@@ -421,7 +421,7 @@ class NewMenuSeeder extends Seeder
                 'description' => 'Говядина вырезка',
                 'price' => 470,
                 'weight' => '150 г',
-                'category' => 'second',
+                'category' => 'order',
                 'tag' => 'Под заказ',
             ],
             [
@@ -429,14 +429,14 @@ class NewMenuSeeder extends Seeder
                 'description' => 'Заправка: сметана, майонез, кетчуп. Время приготовления: 30 минут',
                 'price' => 260,
                 'weight' => '25 шт',
-                'category' => 'second',
+                'category' => 'order',
                 'tag' => 'Под заказ',
             ],
             [
                 'name' => 'Яичница с колбасой',
                 'price' => 220,
                 'weight' => '3 шт / 100 г',
-                'category' => 'second',
+                'category' => 'order',
                 'tag' => 'Под заказ',
             ],
 
@@ -469,7 +469,7 @@ class NewMenuSeeder extends Seeder
                 'name' => 'Сметана',
                 'price' => 130,
                 'weight' => '150 г',
-                'category' => 'side',
+                'category' => 'extra',
                 'tag' => 'Дополнительно',
             ],
 
@@ -549,19 +549,19 @@ class NewMenuSeeder extends Seeder
                 'name' => 'Хлеб белый',
                 'price' => 10,
                 'weight' => '1 шт',
-                'category' => 'bakery',
+                'category' => 'bread',
             ],
             [
                 'name' => 'Хлеб черный',
                 'price' => 7,
                 'weight' => '1 шт',
-                'category' => 'bakery',
+                'category' => 'bread',
             ],
             [
                 'name' => 'Лаваш',
                 'price' => 100,
                 'weight' => '1 шт',
-                'category' => 'bakery',
+                'category' => 'bread',
             ],
         ];
 

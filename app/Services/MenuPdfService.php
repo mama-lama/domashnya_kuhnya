@@ -109,22 +109,7 @@ class MenuPdfService
     // PDF sections at once. Tag/name-based rules add extra sections.
     private function resolvePdfSections(MenuItem $item): array
     {
-        $sections = $item->categorySlugs();
-        $tag = Str::lower($item->tag ?? '');
-
-        if (Str::contains($tag, 'под заказ') && !in_array('order', $sections, true)) {
-            $sections[] = 'order';
-        }
-
-        if (Str::contains($tag, 'дополнительно') && !in_array('extra', $sections, true)) {
-            $sections[] = 'extra';
-        }
-
-        if (in_array($item->name, ['Хлеб белый', 'Хлеб черный', 'Лаваш'], true) && !in_array('bread', $sections, true)) {
-            $sections[] = 'bread';
-        }
-
-        return $sections;
+        return $item->categorySlugs();
     }
 
     private function resolvePdfImageUrl(?string $imageUrl): ?string
